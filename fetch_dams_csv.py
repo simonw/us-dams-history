@@ -1,0 +1,63 @@
+import pandas as pd
+
+dam_urls = [
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=AK_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=AL_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=AR_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=AZ_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=CA_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=CO_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=CT_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=DE_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=FL_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=GA_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=GU_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=HI_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=IA_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=ID_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=IL_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=IN_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=KS_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=KY_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=LA_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=MA_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=MD_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=ME_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=MI_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=MN_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=MO_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=MS_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=MT_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=NC_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=ND_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=NE_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=NH_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=NJ_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=NM_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=NV_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=NY_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=OH_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=OK_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=OR_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=PA_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=PR_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=RI_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=SC_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=SD_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=TN_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=TX_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=UT_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=VA_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=VT_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=WA_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=WI_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=WV_U.xlsx",
+    "https://nid-test.sec.usace.army.mil/ords/NID_R.downloadFile?InFileName=WY_U.xlsx",
+]
+
+dataframes = []
+for dam_url in dam_urls:
+    dataframes.append(pd.read_excel(dam_url))
+
+combined = pd.concat(dataframes)
+combined.to_csv("dams.csv")
